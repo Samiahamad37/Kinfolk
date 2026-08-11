@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  sessions     Session[]
+  people       Person[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Person {
+  id          String    @id @default(cuid())
+  ownerId     String
+  owner       User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  firstName   String
+  middleName  String?
+  lastName    String
+  gender      String?
+  birthDate   String?
+  deathDate   String?
+  birthPlace  String?
+  deathPlace  String?
+  occupation  String?
+  biography   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  fromRelations Relationship[] @relation("FromPerson")
+  toRelations   Relationship[] @relation("ToPerson")
+  records       HistoricalRecord[]
+
+  @@index([ownerId])
+  @@index([lastName, firstName])
+}
+
+/// type: PARENT | SPOUSE
+/// PARENT means fromPerson is a parent of toPerson
+/// SPOUSE means fromPerson and toPerson are spouses
+model Relationship {
+  id           String   @id @default(cuid())
+  ownerId      String
+  fromPersonId String
+  toPersonId   String
+  type         String
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  fromPerson Person @relation("FromPerson", fields: [fromPersonId], references: [id], onDelete: Cascade)
+  toPerson   Person @relation("ToPerson", fields: [toPersonId], references: [id], onDelete: Cascade)
+
+  @@unique([fromPersonId, toPersonId, type])
+  @@index([ownerId])
+}
+
+model HistoricalRecord {
+  id          String   @id @default(cuid())
+  ownerId     String
+  personId    String
+  person      Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
+  title       String
+  recordType  String
+  description String?
+  eventDate   String?
+  location    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([ownerId])
+  @@index([personId])
+}
