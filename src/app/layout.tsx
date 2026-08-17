@@ -1,27 +1,29 @@
+import { Lora, Outfit } from "next/font/google";
 import type { Metadata } from "next";
-import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 
-const display = Fraunces({
+const display = Lora({
   variable: "--font-display",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const body = Manrope({
+const body = Outfit({
   variable: "--font-body",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Kinfolk — Family Tree Management",
+  title: "Roots & Relations — Family Tree",
   description:
-    "A genealogy management app for tracking ancestry, family relationships, and historical records across generations.",
+    "Build, visualize, and preserve your family genealogy with an interactive tree, stories, photos, and historical records.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

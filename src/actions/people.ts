@@ -27,7 +27,11 @@ export async function createPersonAction(
     birthPlace: formData.get("birthPlace") || undefined,
     deathPlace: formData.get("deathPlace") || undefined,
     occupation: formData.get("occupation") || undefined,
+    education: formData.get("education") || undefined,
     biography: formData.get("biography") || undefined,
+    email: formData.get("email") || undefined,
+    phone: formData.get("phone") || undefined,
+    privacy: formData.get("privacy") || undefined,
   });
 
   if (!parsed.success) {
@@ -46,7 +50,11 @@ export async function createPersonAction(
       birthPlace: emptyToNull(parsed.data.birthPlace),
       deathPlace: emptyToNull(parsed.data.deathPlace),
       occupation: emptyToNull(parsed.data.occupation),
+      education: emptyToNull(parsed.data.education),
       biography: emptyToNull(parsed.data.biography),
+      email: emptyToNull(parsed.data.email),
+      phone: emptyToNull(parsed.data.phone),
+      privacy: parsed.data.privacy?.trim() || "family",
     },
   });
 
@@ -71,7 +79,11 @@ export async function updatePersonAction(
     birthPlace: formData.get("birthPlace") || undefined,
     deathPlace: formData.get("deathPlace") || undefined,
     occupation: formData.get("occupation") || undefined,
+    education: formData.get("education") || undefined,
     biography: formData.get("biography") || undefined,
+    email: formData.get("email") || undefined,
+    phone: formData.get("phone") || undefined,
+    privacy: formData.get("privacy") || undefined,
   });
 
   if (!parsed.success) {
@@ -95,7 +107,11 @@ export async function updatePersonAction(
       birthPlace: emptyToNull(parsed.data.birthPlace),
       deathPlace: emptyToNull(parsed.data.deathPlace),
       occupation: emptyToNull(parsed.data.occupation),
+      education: emptyToNull(parsed.data.education),
       biography: emptyToNull(parsed.data.biography),
+      email: emptyToNull(parsed.data.email),
+      phone: emptyToNull(parsed.data.phone),
+      privacy: parsed.data.privacy?.trim() || existing.privacy,
     },
   });
 

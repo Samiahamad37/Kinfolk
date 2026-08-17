@@ -22,7 +22,7 @@ export function AuthForm({ action, mode }: Props) {
           <input
             name="name"
             required
-            className="w-full rounded-md border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
+            className="w-full rounded-md border border-[var(--line)] bg-[var(--panel)] px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
           />
         </label>
       )}
@@ -32,7 +32,7 @@ export function AuthForm({ action, mode }: Props) {
           name="email"
           type="email"
           required
-          className="w-full rounded-md border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
+          className="w-full rounded-md border border-[var(--line)] bg-[var(--panel)] px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
         />
       </label>
       <label className="block space-y-1.5 text-sm">
@@ -42,7 +42,7 @@ export function AuthForm({ action, mode }: Props) {
           type="password"
           required
           minLength={mode === "register" ? 6 : 1}
-          className="w-full rounded-md border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
+          className="w-full rounded-md border border-[var(--line)] bg-[var(--panel)] px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
         />
       </label>
       {state.error && (

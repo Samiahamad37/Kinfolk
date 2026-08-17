@@ -1,15 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #e7eef1;
-  --foreground: #1b2a33;
-  --panel: #f7fafb;
-  --ink: #1b2a33;
-  --muted: #5d6d76;
-  --line: #c9d5db;
-  --accent: #3f6f5b;
-  --accent-deep: #2f5545;
-  --glow: rgba(63, 111, 91, 0.14);
+  --background: #f7f3ed;
+  --foreground: #2c1810;
+  --panel: #fdfaf6;
+  --ink: #2c1810;
+  --muted: #7a6352;
+  --line: #e4d8cc;
+  --accent: #c17e4a;
+  --accent-deep: #8b5e3c;
+  --sidebar: #2c1810;
+  --sidebar-text: #c4ae98;
+  --sidebar-active: #e8a85c;
+  --glow: rgba(193, 126, 74, 0.14);
+  --sage: #5e8050;
+  --cream-50: #fdfaf6;
+  --cream-100: #f7f3ed;
+  --bark-500: #6e4828;
+  --bark-800: #2c1810;
+}
+
+.dark {
+  --background: #1c1208;
+  --foreground: #f0e8dc;
+  --panel: #2a1e12;
+  --ink: #f0e8dc;
+  --muted: #a89882;
+  --line: #3d2e1f;
+  --accent: #c17e4a;
+  --accent-deep: #e8a85c;
+  --sidebar: #140e06;
+  --sidebar-text: #c4ae98;
+  --sidebar-active: #e8a85c;
+  --glow: rgba(193, 126, 74, 0.2);
+  --cream-50: #2a1e12;
+  --cream-100: #1c1208;
+  --bark-500: #a89882;
+  --bark-800: #f0e8dc;
 }
 
 @theme inline {
@@ -20,15 +47,90 @@
 }
 
 body {
-  background:
-    radial-gradient(circle at top left, var(--glow), transparent 34%),
-    linear-gradient(180deg, #dfe8ec 0%, var(--background) 42%, #edf3f5 100%);
+  background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-body), system-ui, sans-serif;
   min-height: 100%;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #ded0c0;
+  border-radius: 2px;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--sidebar-text);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.sidebar-nav-item:hover {
+  background: rgba(196, 174, 152, 0.12);
+  color: #f0e8dc;
+}
+.sidebar-nav-item.active {
+  background: rgba(193, 126, 74, 0.2);
+  color: var(--sidebar-active);
+  font-weight: 500;
+}
+
+.tree-canvas-wrapper {
+  cursor: grab;
+  user-select: none;
+}
+.tree-canvas-wrapper:active {
+  cursor: grabbing;
+}
+
+.person-card {
+  position: absolute;
+  width: 144px;
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 4px rgba(44, 24, 16, 0.08);
+}
+.person-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(44, 24, 16, 0.14);
+  transform: translateY(-1px);
+}
+.person-card.highlighted {
+  border-color: var(--accent);
+  background: #fdf4e7;
+  box-shadow: 0 0 0 3px rgba(193, 126, 74, 0.2);
+}
+.person-card.user-card {
+  border-color: var(--accent-deep);
+  background: linear-gradient(135deg, #fdf4e7 0%, var(--panel) 100%);
+}
+
+.dark .person-card.highlighted,
+.dark .person-card.user-card {
+  background: #3a2310;
 }

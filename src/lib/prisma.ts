@@ -23,8 +23,17 @@ function createPrismaClient() {
   return new PrismaClient({ adapter });
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
+function getPrisma() {
+  const existing = globalForPrisma.prisma;
+  // Recreate if HMR left a client from an older schema
+  if (existing && typeof (existing as { familyEvent?: unknown }).familyEvent === "undefined") {
+    globalForPrisma.prisma = undefined;
+  }
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = createPrismaClient();
+  }
+  return globalForPrisma.prisma;
 }
+
+export const prisma = getPrisma();
+

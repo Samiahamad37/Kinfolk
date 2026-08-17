@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Lora', Georgia, serif;
+  --font-sans: 'Outfit', system-ui, sans-serif;
+
+  --color-cream-50: #FDFAF6;
+  --color-cream-100: #F7F3ED;
+  --color-cream-200: #EAE0D5;
+  --color-cream-300: #DED0C0;
+  --color-cream-400: #C4AE98;
+  --color-cream-500: #A89882;
+
+  --color-bark-50: #F5EDE4;
+  --color-bark-100: #E8D4C0;
+  --color-bark-200: #C49A78;
+  --color-bark-300: #A67B52;
+  --color-bark-400: #8B5E3C;
+  --color-bark-500: #6E4828;
+  --color-bark-600: #52341A;
+  --color-bark-700: #3A2310;
+  --color-bark-800: #2C1810;
+
+  --color-amber-50: #FDF4E7;
+  --color-amber-100: #FAE3C0;
+  --color-amber-200: #F0C880;
+  --color-amber-300: #E8A85C;
+  --color-amber-400: #C17E4A;
+  --color-amber-500: #A66228;
+  --color-amber-600: #7A4818;
+
+  --color-sage-50: #F2F5F0;
+  --color-sage-100: #E0EAD8;
+  --color-sage-200: #C0D4B0;
+  --color-sage-300: #A0B890;
+  --color-sage-500: #5E8050;
+
+  --color-rose-50: #FAF0F0;
+  --color-rose-100: #F5E0E0;
+  --color-rose-400: #C47878;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #F7F3ED;
+  color: #2C1810;
+}
+
+.font-display {
+  font-family: var(--font-display) !important;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #DED0C0;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C4AE98;
+}
+
+.tree-canvas-wrapper {
+  cursor: grab;
+  user-select: none;
+}
+.tree-canvas-wrapper:active {
+  cursor: grabbing;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #C4AE98;
+  transition: all 0.15s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.sidebar-nav-item:hover {
+  background: rgba(196, 174, 152, 0.12);
+  color: #F0E8DC;
+}
+.sidebar-nav-item.active {
+  background: rgba(193, 126, 74, 0.2);
+  color: #E8A85C;
+  font-weight: 500;
+}
+
+.person-card {
+  position: absolute;
+  width: 144px;
+  background: #FDFAF6;
+  border: 1.5px solid #E4D8CC;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 4px rgba(44, 24, 16, 0.08);
+}
+.person-card:hover {
+  border-color: #C17E4A;
+  box-shadow: 0 4px 16px rgba(44, 24, 16, 0.14);
+  transform: translateY(-1px);
+}
+.person-card.highlighted {
+  border-color: #C17E4A;
+  background: #FDF4E7;
+  box-shadow: 0 0 0 3px rgba(193, 126, 74, 0.2);
+}
+.person-card.user-card {
+  border-color: #8B5E3C;
+  background: linear-gradient(135deg, #FDF4E7 0%, #FDFAF6 100%);
+}

@@ -21,11 +21,9 @@ export default async function EditPersonPage({ params }: Props) {
   const action = updatePersonAction.bind(null, person.id);
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto max-w-3xl space-y-6 p-6">
       <div>
-        <h1 className="font-[family-name:var(--font-display)] text-4xl text-[var(--ink)]">
-          Edit {displayName(person)}
-        </h1>
+        <h1 className="font-display text-4xl text-[var(--ink)]">Edit {displayName(person)}</h1>
         <p className="mt-2 text-[var(--muted)]">Update personal details and biography.</p>
       </div>
       <div className="rounded-xl border border-[var(--line)] bg-[var(--panel)] p-6">

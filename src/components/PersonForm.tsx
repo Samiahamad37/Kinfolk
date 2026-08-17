@@ -14,7 +14,11 @@ type PersonValues = {
   birthPlace?: string | null;
   deathPlace?: string | null;
   occupation?: string | null;
+  education?: string | null;
   biography?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  privacy?: string | null;
 };
 
 type Props = {
@@ -33,12 +37,12 @@ export function PersonForm({ action, initial, submitLabel }: Props) {
       <Field label="First name" name="firstName" required defaultValue={initial?.firstName} />
       <Field label="Middle name" name="middleName" defaultValue={initial?.middleName ?? ""} />
       <Field label="Last name" name="lastName" required defaultValue={initial?.lastName} />
-      <label className="block space-y-1.5 text-sm sm:col-span-1">
+      <label className="block space-y-1.5 text-sm">
         <span className="text-[var(--muted)]">Gender</span>
         <select
           name="gender"
           defaultValue={initial?.gender ?? ""}
-          className="w-full rounded-md border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
+          className="w-full rounded-lg border border-[var(--line)] bg-[var(--panel)] px-3 py-2.5 outline-none focus:ring-2 focus:ring-[var(--accent)]"
         >
           <option value="">Prefer not to say</option>
           <option value="Female">Female</option>
@@ -50,18 +54,34 @@ export function PersonForm({ action, initial, submitLabel }: Props) {
       <Field label="Death date" name="deathDate" type="date" defaultValue={initial?.deathDate ?? ""} />
       <Field label="Birth place" name="birthPlace" defaultValue={initial?.birthPlace ?? ""} />
       <Field label="Death place" name="deathPlace" defaultValue={initial?.deathPlace ?? ""} />
-      <Field label="Occupation" name="occupation" defaultValue={initial?.occupation ?? ""} className="sm:col-span-2" />
+      <Field label="Occupation" name="occupation" defaultValue={initial?.occupation ?? ""} />
+      <Field label="Education" name="education" defaultValue={initial?.education ?? ""} />
+      <Field label="Email" name="email" type="email" defaultValue={initial?.email ?? ""} />
+      <Field label="Phone" name="phone" defaultValue={initial?.phone ?? ""} />
+      <label className="block space-y-1.5 text-sm">
+        <span className="text-[var(--muted)]">Privacy</span>
+        <select
+          name="privacy"
+          defaultValue={initial?.privacy ?? "family"}
+          className="w-full rounded-lg border border-[var(--line)] bg-[var(--panel)] px-3 py-2.5 outline-none focus:ring-2 focus:ring-[var(--accent)]"
+        >
+          <option value="public">Public</option>
+          <option value="family">Family only</option>
+          <option value="close-family">Close family</option>
+          <option value="private">Private</option>
+        </select>
+      </label>
       <label className="block space-y-1.5 text-sm sm:col-span-2">
         <span className="text-[var(--muted)]">Biography</span>
         <textarea
           name="biography"
           rows={4}
           defaultValue={initial?.biography ?? ""}
-          className="w-full rounded-md border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
+          className="w-full rounded-lg border border-[var(--line)] bg-[var(--panel)] px-3 py-2.5 outline-none focus:ring-2 focus:ring-[var(--accent)]"
         />
       </label>
       {state.error && (
-        <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700 sm:col-span-2">{state.error}</p>
+        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 sm:col-span-2">{state.error}</p>
       )}
       <div className="sm:col-span-2">
         <SubmitButton label={submitLabel} />
@@ -93,7 +113,7 @@ function Field({
         type={type}
         required={required}
         defaultValue={defaultValue}
-        className="w-full rounded-md border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
+        className="w-full rounded-lg border border-[var(--line)] bg-[var(--panel)] px-3 py-2.5 outline-none focus:ring-2 focus:ring-[var(--accent)]"
       />
     </label>
   );

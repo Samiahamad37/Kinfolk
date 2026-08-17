@@ -21,7 +21,11 @@ export const personSchema = z.object({
   birthPlace: z.string().trim().optional(),
   deathPlace: z.string().trim().optional(),
   occupation: z.string().trim().optional(),
+  education: z.string().trim().optional(),
   biography: z.string().trim().optional(),
+  email: z.string().trim().optional(),
+  phone: z.string().trim().optional(),
+  privacy: z.string().trim().optional(),
 });
 
 export const relationshipSchema = z.object({
@@ -38,4 +42,70 @@ export const recordSchema = z.object({
   description: z.string().trim().optional(),
   eventDate: z.string().trim().optional(),
   location: z.string().trim().optional(),
+});
+
+export const eventSchema = z.object({
+  type: z.string().trim().min(1),
+  title: z.string().trim().min(1, "Title is required"),
+  date: z.string().trim().min(1, "Date is required"),
+  location: z.string().trim().optional(),
+  description: z.string().trim().optional(),
+  personIds: z.string().optional(),
+});
+
+export const albumSchema = z.object({
+  title: z.string().trim().min(1, "Title is required"),
+  coverUrl: z.string().trim().optional(),
+  description: z.string().trim().optional(),
+  year: z.string().trim().optional(),
+});
+
+export const photoSchema = z.object({
+  title: z.string().trim().min(1, "Title is required"),
+  url: z.string().trim().url("Valid image URL required"),
+  albumId: z.string().optional(),
+  year: z.string().optional(),
+  location: z.string().trim().optional(),
+  description: z.string().trim().optional(),
+  personIds: z.string().optional(),
+});
+
+export const storySchema = z.object({
+  title: z.string().trim().min(1, "Title is required"),
+  excerpt: z.string().trim().min(1, "Excerpt is required"),
+  content: z.string().trim().min(1, "Content is required"),
+  date: z.string().trim().optional(),
+  tags: z.string().trim().optional(),
+  authorId: z.string().optional(),
+  personIds: z.string().optional(),
+  readTime: z.string().optional(),
+});
+
+export const documentSchema = z.object({
+  title: z.string().trim().min(1, "Title is required"),
+  type: z.string().trim().min(1),
+  year: z.string().optional(),
+  fileSize: z.string().trim().optional(),
+  url: z.string().trim().optional(),
+  description: z.string().trim().optional(),
+  personIds: z.string().optional(),
+});
+
+export const messageSchema = z.object({
+  senderName: z.string().trim().min(1, "Name is required"),
+  body: z.string().trim().min(1, "Message is required"),
+});
+
+export const settingsSchema = z.object({
+  theme: z.string().optional(),
+  language: z.string().optional(),
+  notifyBirthdays: z.string().optional(),
+  notifyAnniversaries: z.string().optional(),
+  notifyStories: z.string().optional(),
+  notifyMessages: z.string().optional(),
+  profilePrivacy: z.string().optional(),
+  treePrivacy: z.string().optional(),
+  photosPrivacy: z.string().optional(),
+  documentsPrivacy: z.string().optional(),
+  storiesPrivacy: z.string().optional(),
 });

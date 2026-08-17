@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(cuid())
+  id           String        @id @default(cuid())
   name         String
-  email        String    @unique
+  email        String        @unique
   passwordHash String
-  createdAt    DateTime  @default(now())
+  createdAt    DateTime      @default(now())
   sessions     Session[]
   people       Person[]
+  settings     UserSettings?
 }
 
 model Session {
@@ -26,10 +27,27 @@ model Session {
   createdAt DateTime @default(now())
 }
 
+model UserSettings {
+  id                   String  @id @default(cuid())
+  userId               String  @unique
+  user                 User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  theme                String  @default("light")
+  language             String  @default("en")
+  notifyBirthdays      Boolean @default(true)
+  notifyAnniversaries  Boolean @default(true)
+  notifyStories        Boolean @default(true)
+  notifyMessages       Boolean @default(false)
+  profilePrivacy       String  @default("family")
+  treePrivacy          String  @default("family")
+  photosPrivacy        String  @default("family")
+  documentsPrivacy     String  @default("close-family")
+  storiesPrivacy       String  @default("family")
+}
+
 model Person {
-  id          String    @id @default(cuid())
+  id          String   @id @default(cuid())
   ownerId     String
-  owner       User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   firstName   String
   middleName  String?
   lastName    String
@@ -39,13 +57,22 @@ model Person {
   birthPlace  String?
   deathPlace  String?
   occupation  String?
+  education   String?
   biography   String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  email       String?
+  phone       String?
+  privacy     String   @default("family")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  fromRelations Relationship[] @relation("FromPerson")
-  toRelations   Relationship[] @relation("ToPerson")
+  fromRelations Relationship[]     @relation("FromPerson")
+  toRelations   Relationship[]     @relation("ToPerson")
   records       HistoricalRecord[]
+  photoLinks    PhotoPerson[]
+  eventLinks    EventPerson[]
+  storyLinks    StoryPerson[]
+  docLinks      DocumentPerson[]
+  authoredStories Story[]          @relation("StoryAuthor")
 
   @@index([ownerId])
   @@index([lastName, firstName])
@@ -85,4 +112,129 @@ model HistoricalRecord {
 
   @@index([ownerId])
   @@index([personId])
+}
+
+model Album {
+  id          String   @id @default(cuid())
+  ownerId     String
+  title       String
+  coverUrl    String?
+  description String?
+  year        String?
+  createdAt   DateTime @default(now())
+  photos      Photo[]
+
+  @@index([ownerId])
+}
+
+model Photo {
+  id          String   @id @default(cuid())
+  ownerId     String
+  albumId     String?
+  album       Album?   @relation(fields: [albumId], references: [id], onDelete: SetNull)
+  url         String
+  title       String
+  year        Int?
+  location    String?
+  description String?
+  createdAt   DateTime @default(now())
+  people      PhotoPerson[]
+
+  @@index([ownerId])
+  @@index([albumId])
+}
+
+model PhotoPerson {
+  photoId  String
+  personId String
+  photo    Photo  @relation(fields: [photoId], references: [id], onDelete: Cascade)
+  person   Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@id([photoId, personId])
+}
+
+model FamilyEvent {
+  id          String   @id @default(cuid())
+  ownerId     String
+  type        String
+  title       String
+  date        String
+  year        Int?
+  month       Int?
+  day         Int?
+  location    String?
+  description String?
+  createdAt   DateTime @default(now())
+  people      EventPerson[]
+
+  @@index([ownerId])
+}
+
+model EventPerson {
+  eventId  String
+  personId String
+  event    FamilyEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  person   Person      @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@id([eventId, personId])
+}
+
+model Story {
+  id          String   @id @default(cuid())
+  ownerId     String
+  authorId    String?
+  author      Person?  @relation("StoryAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  title       String
+  excerpt     String
+  content     String
+  date        String?
+  tags        String   @default("[]")
+  readTime    Int      @default(3)
+  createdAt   DateTime @default(now())
+  people      StoryPerson[]
+
+  @@index([ownerId])
+}
+
+model StoryPerson {
+  storyId  String
+  personId String
+  story    Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  person   Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@id([storyId, personId])
+}
+
+model FamilyDocument {
+  id          String   @id @default(cuid())
+  ownerId     String
+  title       String
+  type        String
+  year        Int?
+  fileSize    String?
+  url         String?
+  description String?
+  createdAt   DateTime @default(now())
+  people      DocumentPerson[]
+
+  @@index([ownerId])
+}
+
+model DocumentPerson {
+  documentId String
+  personId   String
+  document   FamilyDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  person     Person         @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@id([documentId, personId])
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  ownerId    String
+  senderName String
+  body       String
+  createdAt  DateTime @default(now())
+
+  @@index([ownerId])
 }
