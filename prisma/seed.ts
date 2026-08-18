@@ -1,15 +1,18 @@
 import "dotenv/config";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { Pool } from "pg";
 import bcrypt from "bcryptjs";
-import path from "node:path";
+import { normalizeDatabaseUrl } from "../src/lib/db-url";
 
-const url = process.env.DATABASE_URL ?? "file:./dev.db";
-const resolvedUrl = url.startsWith("file:")
-  ? `file:${path.resolve(process.cwd(), url.replace(/^file:/, ""))}`
-  : url;
+const rawUrl = process.env.DATABASE_URL;
+if (!rawUrl) {
+  throw new Error("DATABASE_URL is not set");
+}
 
-const adapter = new PrismaBetterSqlite3({ url: resolvedUrl });
+const connectionString = normalizeDatabaseUrl(rawUrl);
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
@@ -197,7 +200,7 @@ async function main() {
     ],
   });
 
-  const wedding = await prisma.familyEvent.create({
+  await prisma.familyEvent.create({
     data: {
       ownerId: user.id,
       type: "marriage",
@@ -242,8 +245,6 @@ async function main() {
       },
     },
   });
-
-  void wedding;
 
   const albums = await Promise.all([
     prisma.album.create({
@@ -394,4 +395,5 @@ main()
   })
   .finally(async () => {
     await prisma.$disconnect();
+    await pool.end();
   });
