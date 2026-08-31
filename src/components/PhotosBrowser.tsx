@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useActionState } from "react";
-import { Images, Search, Upload, FolderPlus } from "lucide-react";
+import { Images, Search, Upload, FolderPlus, X } from "lucide-react";
 import type { ActionState } from "@/actions/auth";
 import { createAlbumAction, createPhotoAction } from "@/actions/family";
 import { SubmitButton } from "@/components/SubmitButton";
@@ -389,10 +389,10 @@ export function PhotosBrowser({
             </div>
             <button
               type="button"
-              className="absolute -top-10 right-0 text-2xl font-light text-white/60 hover:text-white"
+              className="absolute -top-10 right-0 text-white/60 hover:text-white"
               onClick={() => setLightbox(null)}
             >
-              ✕
+              <X size={24} />
             </button>
           </div>
         </div>
