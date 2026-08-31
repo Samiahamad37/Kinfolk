@@ -18,7 +18,7 @@ async function main() {
   try {
     await prisma.$queryRawUnsafe("SELECT 1");
     const users = await prisma.user.count();
-    console.log(`✅ Connected (${users} users)`);
+    console.log(`Connected successfully (${users} users)`);
   } finally {
     await prisma.$disconnect();
     await pool.end();
