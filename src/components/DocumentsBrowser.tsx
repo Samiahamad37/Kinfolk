@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useActionState } from "react";
 import Link from "next/link";
-import { Download, Search, Upload } from "lucide-react";
+import { Download, Search, Upload, FileText, Heart, HeartOff, Ship, ClipboardList } from "lucide-react";
 import type { ActionState } from "@/actions/auth";
 import { createDocumentAction } from "@/actions/family";
 import { SubmitButton } from "@/components/SubmitButton";
@@ -26,12 +26,12 @@ type DocLite = {
   people: { person: PersonLite }[];
 };
 
-const TYPE_CONFIG: Record<string, { icon: string; color: string; bg: string; label: string }> = {
-  "birth-cert": { icon: "📄", color: "#5E8050", bg: "#E0EAD8", label: "Birth Certificate" },
-  "marriage-cert": { icon: "💒", color: "#8B5E3C", bg: "#F5EDE4", label: "Marriage Certificate" },
-  "death-cert": { icon: "🕯️", color: "#7A6352", bg: "#EAE0D5", label: "Death Certificate" },
-  immigration: { icon: "🚢", color: "#6050A0", bg: "#E8E4F5", label: "Immigration Record" },
-  other: { icon: "📋", color: "#7A7058", bg: "#F0EDE4", label: "Document" },
+const TYPE_CONFIG: Record<string, { icon: any; color: string; bg: string; label: string }> = {
+  "birth-cert": { icon: FileText, color: "#5E8050", bg: "#E0EAD8", label: "Birth Certificate" },
+  "marriage-cert": { icon: Heart, color: "#8B5E3C", bg: "#F5EDE4", label: "Marriage Certificate" },
+  "death-cert": { icon: HeartOff, color: "#7A6352", bg: "#EAE0D5", label: "Death Certificate" },
+  immigration: { icon: Ship, color: "#6050A0", bg: "#E8E4F5", label: "Immigration Record" },
+  other: { icon: ClipboardList, color: "#7A7058", bg: "#F0EDE4", label: "Document" },
 };
 
 const CATEGORIES = [
@@ -186,10 +186,10 @@ export function DocumentsBrowser({ documents }: { documents: DocLite[] }) {
                   className="flex items-start gap-4 rounded-xl border border-[var(--line)] bg-[var(--panel)] p-4 transition-all hover:shadow-sm"
                 >
                   <div
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] text-[22px]"
-                    style={{ background: cfg.bg }}
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px]"
+                    style={{ background: cfg.bg, color: cfg.color }}
                   >
-                    {cfg.icon}
+                    <cfg.icon size={22} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
