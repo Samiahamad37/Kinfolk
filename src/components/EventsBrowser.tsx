@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useActionState } from "react";
 import Link from "next/link";
-import { MapPin, Plus } from "lucide-react";
+import { MapPin, Plus, Baby, HeartOff, Heart, GraduationCap, Sparkles, Leaf, Home, Pin } from "lucide-react";
 import type { ActionState } from "@/actions/auth";
 import { createEventAction } from "@/actions/family";
 import { SubmitButton } from "@/components/SubmitButton";
@@ -43,15 +43,15 @@ const FULL_MONTHS = [
   "December",
 ];
 
-const TYPE_CONFIG: Record<string, { icon: string; color: string; bg: string; label: string }> = {
-  birth: { icon: "👶", color: "#5E8050", bg: "#E0EAD8", label: "Birth" },
-  death: { icon: "🕯️", color: "#7A6352", bg: "#EAE0D5", label: "Death" },
-  marriage: { icon: "💍", color: "#8B5E3C", bg: "#F5EDE4", label: "Marriage" },
-  graduation: { icon: "🎓", color: "#A67B52", bg: "#FAE3C0", label: "Graduation" },
-  reunion: { icon: "🎉", color: "#C17E4A", bg: "#FDF4E7", label: "Reunion" },
-  memorial: { icon: "🌿", color: "#6E8050", bg: "#EAF0E4", label: "Memorial" },
-  move: { icon: "🏠", color: "#8B7052", bg: "#F0EAE0", label: "Move" },
-  other: { icon: "📌", color: "#A89882", bg: "#F7F3ED", label: "Other" },
+const TYPE_CONFIG: Record<string, { icon: any; color: string; bg: string; label: string }> = {
+  birth: { icon: Baby, color: "#5E8050", bg: "#E0EAD8", label: "Birth" },
+  death: { icon: HeartOff, color: "#7A6352", bg: "#EAE0D5", label: "Death" },
+  marriage: { icon: Heart, color: "#8B5E3C", bg: "#F5EDE4", label: "Marriage" },
+  graduation: { icon: GraduationCap, color: "#A67B52", bg: "#FAE3C0", label: "Graduation" },
+  reunion: { icon: Sparkles, color: "#C17E4A", bg: "#FDF4E7", label: "Reunion" },
+  memorial: { icon: Leaf, color: "#6E8050", bg: "#EAF0E4", label: "Memorial" },
+  move: { icon: Home, color: "#8B7052", bg: "#F0EAE0", label: "Move" },
+  other: { icon: Pin, color: "#A89882", bg: "#F7F3ED", label: "Other" },
 };
 
 const EVENT_TYPES = [
@@ -199,10 +199,10 @@ export function EventsBrowser({ events }: { events: EventLite[] }) {
                     className="flex gap-4 rounded-xl border border-[var(--line)] bg-[var(--panel)] p-4"
                   >
                     <div
-                      className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[10px] text-xl"
-                      style={{ background: cfg.bg }}
+                      className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[10px]"
+                      style={{ background: cfg.bg, color: cfg.color }}
                     >
-                      {cfg.icon}
+                      <cfg.icon size={20} />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="font-display text-sm font-semibold text-[var(--ink)]">
@@ -255,7 +255,7 @@ export function EventsBrowser({ events }: { events: EventLite[] }) {
                   const count = typeCounts[type] ?? 0;
                   return (
                     <div key={type} className="flex items-center gap-3">
-                      <span className="text-base">{cfg.icon}</span>
+                      <cfg.icon size={16} style={{ color: cfg.color }} />
                       <div className="flex-1 text-[13px] capitalize text-[var(--muted)]">{type}s</div>
                       <div className="text-[13px] font-semibold text-[var(--ink)]">{count}</div>
                     </div>
@@ -319,7 +319,7 @@ export function EventsBrowser({ events }: { events: EventLite[] }) {
                       key={event.id}
                       className="flex items-center gap-3 rounded-xl border border-[var(--line)] p-3"
                     >
-                      <span className="text-lg">{cfg.icon}</span>
+                      <cfg.icon size={18} style={{ color: cfg.color }} />
                       <div>
                         <div className="text-[13px] font-medium text-[var(--ink)]">{event.title}</div>
                         <div className="text-xs text-[var(--muted)]">{event.date}</div>
