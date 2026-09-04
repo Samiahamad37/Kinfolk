@@ -60,7 +60,7 @@ export async function createEventAction(
 
   await prisma.familyEvent.create({
     data: {
-      ownerId: user.id,
+      ownerId: user.accountOwnerId,
       type: parsed.data.type,
       title: parsed.data.title,
       date: parsed.data.date,
@@ -83,7 +83,7 @@ export async function createEventAction(
 
 export async function deleteEventAction(eventId: string) {
   const user = await requireUser();
-  await prisma.familyEvent.deleteMany({ where: { id: eventId, ownerId: user.id } });
+  await prisma.familyEvent.deleteMany({ where: { id: eventId, ownerId: user.accountOwnerId } });
   revalidatePath("/events");
   revalidatePath("/timeline");
 }
@@ -103,7 +103,7 @@ export async function createAlbumAction(
 
   await prisma.album.create({
     data: {
-      ownerId: user.id,
+      ownerId: user.accountOwnerId,
       title: parsed.data.title,
       coverUrl: emptyToNull(parsed.data.coverUrl),
       description: emptyToNull(parsed.data.description),
@@ -135,7 +135,7 @@ export async function createPhotoAction(
 
   await prisma.photo.create({
     data: {
-      ownerId: user.id,
+      ownerId: user.accountOwnerId,
       title: parsed.data.title,
       url: parsed.data.url,
       albumId: emptyToNull(parsed.data.albumId),
@@ -180,7 +180,7 @@ export async function createStoryAction(
 
   await prisma.story.create({
     data: {
-      ownerId: user.id,
+      ownerId: user.accountOwnerId,
       title: parsed.data.title,
       excerpt: parsed.data.excerpt,
       content: parsed.data.content,
@@ -216,7 +216,7 @@ export async function createDocumentAction(
 
   await prisma.familyDocument.create({
     data: {
-      ownerId: user.id,
+      ownerId: user.accountOwnerId,
       title: parsed.data.title,
       type: parsed.data.type,
       year: Number.isFinite(year) ? year : null,
@@ -244,7 +244,7 @@ export async function createMessageAction(
 
   await prisma.message.create({
     data: {
-      ownerId: user.id,
+      ownerId: user.accountOwnerId,
       senderName: parsed.data.senderName,
       body: parsed.data.body,
     },
