@@ -40,7 +40,7 @@ export async function createPersonAction(
 
   const person = await prisma.person.create({
     data: {
-      ownerId: user.id,
+      ownerId: user.accountOwnerId,
       firstName: parsed.data.firstName,
       middleName: emptyToNull(parsed.data.middleName),
       lastName: parsed.data.lastName,
@@ -91,7 +91,7 @@ export async function updatePersonAction(
   }
 
   const existing = await prisma.person.findFirst({
-    where: { id: personId, ownerId: user.id },
+    where: { id: personId, ownerId: user.accountOwnerId },
   });
   if (!existing) return { error: "Person not found" };
 
@@ -124,7 +124,7 @@ export async function updatePersonAction(
 export async function deletePersonAction(personId: string) {
   const user = await requireUser();
   await prisma.person.deleteMany({
-    where: { id: personId, ownerId: user.id },
+    where: { id: personId, ownerId: user.accountOwnerId },
   });
   revalidatePath("/people");
   revalidatePath("/dashboard");
