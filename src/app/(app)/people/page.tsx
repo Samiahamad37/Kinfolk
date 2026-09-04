@@ -6,8 +6,8 @@ import { MembersBrowser } from "@/components/MembersBrowser";
 export default async function PeoplePage() {
   const user = await requireUser();
   const [people, relationships] = await Promise.all([
-    prisma.person.findMany({ where: { ownerId: user.id } }),
-    prisma.relationship.findMany({ where: { ownerId: user.id } }),
+    prisma.person.findMany({ where: { ownerId: user.accountOwnerId } }),
+    prisma.relationship.findMany({ where: { ownerId: user.accountOwnerId } }),
   ]);
   const layout = people.length ? buildTreeLayout(people, relationships) : null;
 

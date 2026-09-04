@@ -6,7 +6,7 @@ export default async function StoriesPage() {
   const user = await requireUser();
 
   const stories = await prisma.story.findMany({
-    where: { ownerId: user.id },
+    where: { ownerId: user.accountOwnerId },
     include: { author: true },
     orderBy: { createdAt: "desc" },
   });

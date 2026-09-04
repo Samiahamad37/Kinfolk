@@ -13,7 +13,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <Suspense fallback={<div className="min-h-screen bg-[var(--background)]" />}>
-      <AppShell userName={user.name} userInitials={initials}>
+      <AppShell userName={user.name} userInitials={initials} userRole={user.role}>
         {children}
       </AppShell>
     </Suspense>

@@ -13,7 +13,7 @@ export default async function EditPersonPage({ params }: Props) {
   const { id } = await params;
 
   const person = await prisma.person.findFirst({
-    where: { id, ownerId: user.id },
+    where: { id, ownerId: user.accountOwnerId },
   });
 
   if (!person) notFound();

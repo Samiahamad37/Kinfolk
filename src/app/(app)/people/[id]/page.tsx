@@ -17,7 +17,7 @@ export default async function PersonDetailPage({ params }: Props) {
   const { id } = await params;
 
   const person = await prisma.person.findFirst({
-    where: { id, ownerId: user.id },
+    where: { id, ownerId: user.accountOwnerId },
     include: {
       fromRelations: { include: { toPerson: true } },
       toRelations: { include: { fromPerson: true } },
@@ -28,7 +28,7 @@ export default async function PersonDetailPage({ params }: Props) {
   if (!person) notFound();
 
   const allPeople = await prisma.person.findMany({
-    where: { ownerId: user.id },
+    where: { ownerId: user.accountOwnerId },
     orderBy: [{ lastName: "asc" }, { firstName: "asc" }],
   });
 

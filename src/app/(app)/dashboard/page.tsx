@@ -9,13 +9,13 @@ export default async function DashboardPage() {
   const user = await requireUser();
 
   const [people, relationships, events, stories, photos, recentPeople] = await Promise.all([
-    prisma.person.findMany({ where: { ownerId: user.id } }),
-    prisma.relationship.findMany({ where: { ownerId: user.id } }),
-    prisma.familyEvent.findMany({ where: { ownerId: user.id } }),
-    prisma.story.findMany({ where: { ownerId: user.id }, take: 3, orderBy: { createdAt: "desc" } }),
-    prisma.photo.findMany({ where: { ownerId: user.id }, take: 4, orderBy: { createdAt: "desc" } }),
+    prisma.person.findMany({ where: { ownerId: user.accountOwnerId } }),
+    prisma.relationship.findMany({ where: { ownerId: user.accountOwnerId } }),
+    prisma.familyEvent.findMany({ where: { ownerId: user.accountOwnerId } }),
+    prisma.story.findMany({ where: { ownerId: user.accountOwnerId }, take: 3, orderBy: { createdAt: "desc" } }),
+    prisma.photo.findMany({ where: { ownerId: user.accountOwnerId }, take: 4, orderBy: { createdAt: "desc" } }),
     prisma.person.findMany({
-      where: { ownerId: user.id },
+      where: { ownerId: user.accountOwnerId },
       orderBy: { createdAt: "desc" },
       take: 4,
     }),

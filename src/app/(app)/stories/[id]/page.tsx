@@ -25,7 +25,7 @@ export default async function StoryDetailPage({ params }: Props) {
   const { id } = await params;
 
   const story = await prisma.story.findFirst({
-    where: { id, ownerId: user.id },
+    where: { id, ownerId: user.accountOwnerId },
     include: {
       author: true,
       people: { include: { person: true } },

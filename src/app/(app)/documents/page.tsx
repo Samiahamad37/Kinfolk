@@ -6,7 +6,7 @@ export default async function DocumentsPage() {
   const user = await requireUser();
 
   const documents = await prisma.familyDocument.findMany({
-    where: { ownerId: user.id },
+    where: { ownerId: user.accountOwnerId },
     include: { people: { include: { person: true } } },
     orderBy: { createdAt: "desc" },
   });

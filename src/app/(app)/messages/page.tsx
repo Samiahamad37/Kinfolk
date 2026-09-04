@@ -6,7 +6,7 @@ export default async function MessagesPage() {
   const user = await requireUser();
 
   const messages = await prisma.message.findMany({
-    where: { ownerId: user.id },
+    where: { ownerId: user.accountOwnerId },
     orderBy: { createdAt: "desc" },
   });
 

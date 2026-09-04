@@ -7,12 +7,12 @@ export default async function PhotosPage() {
 
   const [albums, photos] = await Promise.all([
     prisma.album.findMany({
-      where: { ownerId: user.id },
+      where: { ownerId: user.accountOwnerId },
       include: { _count: { select: { photos: true } } },
       orderBy: { createdAt: "desc" },
     }),
     prisma.photo.findMany({
-      where: { ownerId: user.id },
+      where: { ownerId: user.accountOwnerId },
       include: { people: { include: { person: true } } },
       orderBy: { createdAt: "desc" },
     }),

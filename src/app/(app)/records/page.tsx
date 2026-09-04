@@ -7,7 +7,7 @@ export default async function RecordsPage() {
   const user = await requireUser();
 
   const records = await prisma.historicalRecord.findMany({
-    where: { ownerId: user.id },
+    where: { ownerId: user.accountOwnerId },
     include: { person: true },
     orderBy: [{ eventDate: "desc" }, { createdAt: "desc" }],
   });

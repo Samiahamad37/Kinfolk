@@ -28,14 +28,14 @@ export default async function TimelinePage({
 
   const [events, records, people] = await Promise.all([
     prisma.familyEvent.findMany({
-      where: { ownerId: user.id },
+      where: { ownerId: user.accountOwnerId },
       include: { people: { include: { person: true } } },
     }),
     prisma.historicalRecord.findMany({
-      where: { ownerId: user.id },
+      where: { ownerId: user.accountOwnerId },
       include: { person: true },
     }),
-    prisma.person.findMany({ where: { ownerId: user.id } }),
+    prisma.person.findMany({ where: { ownerId: user.accountOwnerId } }),
   ]);
 
   type Item = {

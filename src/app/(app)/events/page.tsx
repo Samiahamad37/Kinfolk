@@ -6,7 +6,7 @@ export default async function EventsPage() {
   const user = await requireUser();
 
   const events = await prisma.familyEvent.findMany({
-    where: { ownerId: user.id },
+    where: { ownerId: user.accountOwnerId },
     include: { people: { include: { person: true } } },
     orderBy: [{ year: "desc" }, { month: "desc" }, { createdAt: "desc" }],
   });

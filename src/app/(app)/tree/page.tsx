@@ -7,8 +7,8 @@ import { InteractiveTree } from "@/components/InteractiveTree";
 export default async function TreePage() {
   const user = await requireUser();
   const [people, relationships] = await Promise.all([
-    prisma.person.findMany({ where: { ownerId: user.id }, orderBy: { lastName: "asc" } }),
-    prisma.relationship.findMany({ where: { ownerId: user.id } }),
+    prisma.person.findMany({ where: { ownerId: user.accountOwnerId }, orderBy: { lastName: "asc" } }),
+    prisma.relationship.findMany({ where: { ownerId: user.accountOwnerId } }),
   ]);
 
   if (people.length === 0) {
