@@ -27,14 +27,24 @@ export function AuthForm({ action, mode }: Props) {
         </label>
       )}
       <label className="block space-y-1.5 text-sm">
-        <span className="text-[var(--muted)]">Email</span>
+        <span className="text-[var(--muted)]">Username or email</span>
         <input
-          name="email"
-          type="email"
+          name="username"
           required
           className="w-full rounded-md border border-[var(--line)] bg-[var(--panel)] px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
         />
       </label>
+      {mode === "register" && (
+        <label className="block space-y-1.5 text-sm">
+          <span className="text-[var(--muted)]">Email</span>
+          <input
+            name="email"
+            type="email"
+            required
+            className="w-full rounded-md border border-[var(--line)] bg-[var(--panel)] px-3 py-2.5 outline-none ring-[var(--accent)] focus:ring-2"
+          />
+        </label>
+      )}
       <label className="block space-y-1.5 text-sm">
         <span className="text-[var(--muted)]">Password</span>
         <input
