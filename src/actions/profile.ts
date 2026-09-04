@@ -7,7 +7,7 @@ import { fullName, initials, isLiving, age, parseYear, avatarColor } from "@/lib
 export async function getPersonProfile(personId: string) {
   const user = await requireUser();
   const person = await prisma.person.findFirst({
-    where: { id: personId, ownerId: user.id },
+    where: { id: personId, ownerId: user.accountOwnerId },
     include: {
       photoLinks: { include: { photo: true }, take: 6 },
       eventLinks: { include: { event: true }, take: 8 },
@@ -17,9 +17,9 @@ export async function getPersonProfile(personId: string) {
   if (!person) return null;
 
   const relationships = await prisma.relationship.findMany({
-    where: { ownerId: user.id },
+    where: { ownerId: user.accountOwnerId },
   });
-  const people = await prisma.person.findMany({ where: { ownerId: user.id } });
+  const people = await prisma.person.findMany({ where: { ownerId: user.accountOwnerId } });
   const byId = new Map(people.map((p) => [p.id, p]));
 
   const parentIds = relationships
