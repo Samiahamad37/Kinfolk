@@ -28,7 +28,7 @@ export async function createRelationshipAction(
 
   const people = await prisma.person.findMany({
     where: {
-      ownerId: user.id,
+      ownerId: user.accountOwnerId,
       id: { in: [parsed.data.fromPersonId, parsed.data.toPersonId] },
     },
   });
@@ -40,7 +40,7 @@ export async function createRelationshipAction(
   try {
     await prisma.relationship.create({
       data: {
-        ownerId: user.id,
+        ownerId: user.accountOwnerId,
         fromPersonId: parsed.data.fromPersonId,
         toPersonId: parsed.data.toPersonId,
         type: parsed.data.type,
@@ -60,7 +60,7 @@ export async function createRelationshipAction(
 export async function deleteRelationshipAction(relationshipId: string, personId: string) {
   const user = await requireUser();
   await prisma.relationship.deleteMany({
-    where: { id: relationshipId, ownerId: user.id },
+    where: { id: relationshipId, ownerId: user.accountOwnerId },
   });
   revalidatePath(`/people/${personId}`);
   revalidatePath("/tree");
