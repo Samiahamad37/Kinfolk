@@ -30,13 +30,13 @@ export async function createRecordAction(
   }
 
   const person = await prisma.person.findFirst({
-    where: { id: parsed.data.personId, ownerId: user.id },
+    where: { id: parsed.data.personId, ownerId: user.accountOwnerId },
   });
   if (!person) return { error: "Person not found" };
 
   await prisma.historicalRecord.create({
     data: {
-      ownerId: user.id,
+      ownerId: user.accountOwnerId,
       personId: parsed.data.personId,
       title: parsed.data.title,
       recordType: parsed.data.recordType,
@@ -54,7 +54,7 @@ export async function createRecordAction(
 export async function deleteRecordAction(recordId: string, personId: string) {
   const user = await requireUser();
   await prisma.historicalRecord.deleteMany({
-    where: { id: recordId, ownerId: user.id },
+    where: { id: recordId, ownerId: user.accountOwnerId },
   });
   revalidatePath(`/people/${personId}`);
   revalidatePath("/records");
