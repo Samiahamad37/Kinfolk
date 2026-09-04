@@ -8,14 +8,19 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(cuid())
-  name         String
-  email        String        @unique
-  passwordHash String
-  createdAt    DateTime      @default(now())
-  sessions     Session[]
-  people       Person[]
-  settings     UserSettings?
+  id             String        @id @default(cuid())
+  name           String
+  username       String        @unique
+  email          String        @unique
+  passwordHash   String
+  accountOwnerId String
+  role           String        @default("ADMIN")
+  createdAt      DateTime      @default(now())
+  sessions       Session[]
+  people         Person[]
+  settings       UserSettings?
+
+  @@index([accountOwnerId])
 }
 
 model Session {

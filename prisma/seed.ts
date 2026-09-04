@@ -36,11 +36,15 @@ async function main() {
   const user = await prisma.user.create({
     data: {
       name: "Samia Demo",
+      username: "demo",
       email: "demo@kinfolk.app",
       passwordHash: await bcrypt.hash("demo1234", 10),
+      accountOwnerId: "pending",
       settings: { create: {} },
     },
   });
+
+  await prisma.user.update({ where: { id: user.id }, data: { accountOwnerId: user.id } });
 
   const people = await Promise.all(
     [
