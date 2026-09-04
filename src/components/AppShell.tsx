@@ -21,6 +21,7 @@ import {
   Moon,
   ChevronRight,
   LogOut,
+  UserCog,
 } from "lucide-react";
 import { logoutAction } from "@/actions/auth";
 import { PersonProfilePanel } from "@/components/PersonProfilePanel";
@@ -35,6 +36,7 @@ const NAV_ITEMS = [
   { href: "/documents", label: "Documents", icon: FileText },
   { href: "/stories", label: "Family Stories", icon: BookOpen },
   { href: "/messages", label: "Messages", icon: MessageCircle },
+  { href: "/admin/members", label: "Manage access", icon: UserCog },
   { href: "/settings", label: "Settings", icon: Settings2 },
 ] as const;
 
@@ -49,10 +51,11 @@ const MOBILE_NAV = [
 type Props = {
   userName: string;
   userInitials: string;
+  userRole: string;
   children: React.ReactNode;
 };
 
-export function AppShell({ userName, userInitials, children }: Props) {
+export function AppShell({ userName, userInitials, userRole, children }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -119,6 +122,7 @@ export function AppShell({ userName, userInitials, children }: Props) {
             Navigation
           </div>
           {NAV_ITEMS.map((item) => {
+            if (item.href === "/admin/members" && userRole !== "ADMIN") return null;
             const Icon = item.icon;
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
