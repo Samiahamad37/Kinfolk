@@ -15,7 +15,7 @@ export default async function LoginPage() {
       </Link>
       <h1 className="font-display text-3xl text-[var(--ink)]">Welcome back</h1>
       <p className="mt-2 text-sm text-[var(--muted)]">
-        Demo: <span className="font-medium text-[var(--ink)]">demo@kinfolk.app</span> /{" "}
+        Demo: <span className="font-medium text-[var(--ink)]">demo</span> /{" "}
         <span className="font-medium text-[var(--ink)]">demo1234</span>
       </p>
       <div className="mt-8 rounded-xl border border-[var(--line)] bg-[var(--panel)] p-6 shadow-[0_18px_50px_rgba(44,24,16,0.08)]">
