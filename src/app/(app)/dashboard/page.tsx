@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, TreePine, Users, Heart, Calendar } from "lucide-react";
+import { Plus, TreePine, Users, Heart, HeartOff, Calendar } from "lucide-react";
 import { requireUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { fullName, initials, avatarColor, isLiving, parseYear } from "@/lib/person-utils";
@@ -24,6 +24,7 @@ export default async function DashboardPage() {
   const layout = people.length ? buildTreeLayout(people, relationships) : null;
   const generations = layout ? layout.generations.length : 0;
   const living = people.filter((p) => isLiving(p)).length;
+  const deceased = people.length - living;
   const firstName = user.name.split(" ")[0];
 
   const now = new Date();
@@ -56,6 +57,7 @@ export default async function DashboardPage() {
   const stats = [
     { label: "Family Members", value: people.length, icon: Users, color: "#8B5E3C" },
     { label: "Living Members", value: living, icon: Heart, color: "#C17E4A" },
+    { label: "Deceased Members", value: deceased, icon: HeartOff, color: "#7A6352" },
     { label: "Generations", value: generations, icon: TreePine, color: "#5E8050" },
     { label: "Family Events", value: events.length, icon: Calendar, color: "#A67B52" },
   ];
@@ -96,7 +98,7 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
