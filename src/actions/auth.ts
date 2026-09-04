@@ -21,6 +21,7 @@ export async function registerAction(
 ): Promise<ActionState> {
   const parsed = registerSchema.safeParse({
     name: formData.get("name"),
+    username: formData.get("username"),
     email: formData.get("email"),
     password: formData.get("password"),
   });
@@ -37,9 +38,16 @@ export async function registerAction(
   const user = await prisma.user.create({
     data: {
       name: parsed.data.name,
+      username: parsed.data.username.toLowerCase(),
       email: parsed.data.email.toLowerCase(),
       passwordHash: await hashPassword(parsed.data.password),
+      accountOwnerId: "pending",
     },
+  });
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { accountOwnerId: user.id },
   });
 
   await createSession(user.id);
@@ -51,7 +59,7 @@ export async function loginAction(
   formData: FormData,
 ): Promise<ActionState> {
   const parsed = loginSchema.safeParse({
-    email: formData.get("email"),
+    username: formData.get("username"),
     password: formData.get("password"),
   });
 
@@ -59,8 +67,9 @@ export async function loginAction(
     return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  const user = await prisma.user.findUnique({
-    where: { email: parsed.data.email.toLowerCase() },
+  const loginValue = parsed.data.username.toLowerCase();
+  const user = await prisma.user.findFirst({
+    where: { OR: [{ username: loginValue }, { email: loginValue }] },
   });
 
   if (!user || !(await verifyPassword(parsed.data.password, user.passwordHash))) {
